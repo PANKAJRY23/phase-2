@@ -1,0 +1,38 @@
+<template>
+    <div>
+        <div class="slds-clearfix">
+            <lightning-button variant="brand" 
+                label="Create New Tenant" 
+                title="Create New Tenant" 
+                onclick={newClickHandler} 
+                class="slds-m-left_x-small slds-float_right">
+            </lightning-button>
+        </div>
+        <template if:true={isCreateModelOpen}>
+            <c-dcmgt_create-new-record-comp object-name={objectName}
+                field-list={fieldList}
+                is-modal-open
+                title={title}
+                onclose={closeHandler}>
+            </c-dcmgt_create-new-record-comp>
+        </template>
+        <div>
+            <template if:true={tenantNameList}>
+                <lightning-combobox
+                    variant="label-inline"
+                    name="TenantName"
+                    label="Tenant Name"
+                    value={selectedTenant}
+                    placeholder="Select Progress"
+                    options={tenantNameList}
+                    onchange={tenantChangeHandler} ></lightning-combobox>
+            </template>
+            <template if:true={selectedTenant}>
+                <lightning-input variant="label-inline" label="Tenant Admin" value={tenantAdmin} read-only></lightning-input>
+                <lightning-textarea variant="label-inline"  label="Tenant Description" value={tenantDescription} read-only></lightning-textarea>
+                <!-- <lightning-input-rich-text variant="label-inline" label-visible  label="Tenant Description" value={tenantDescription} disabled></lightning-input-rich-text> -->
+            </template>
+            
+        </div>
+    </div>
+</template>

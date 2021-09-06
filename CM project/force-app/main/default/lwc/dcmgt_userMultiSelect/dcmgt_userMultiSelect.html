@@ -1,0 +1,40 @@
+<template>
+  <template if:true={isLoading}>
+    <lightning-spinner
+        variant="brand"
+        size="large">
+    </lightning-spinner>
+  </template>
+  <template if:true={edit}>
+    <lightning-card >
+      <div style="padding:1%">
+        <lightning-dual-listbox id="selectOptions" name={label} label={label}
+        source-label="Available Users" selected-label="Selected Users" options={listOptions} value={selectedUsers}
+        onchange={handleChange} style="margin-bottom:1%">
+      </lightning-dual-listbox>
+      <lightning-button variant="brand" label="Save" onclick={handleSave} style="margin:1%">
+      </lightning-button>
+      <lightning-button variant="brand" label="Cancel" onclick={handleCancel} >
+      </lightning-button>
+      </div>
+    </lightning-card>
+  </template>
+  <template if:false={edit}>
+    <div style="width:100%;display:flex;flex-direction:row;background:rgb(243 242 242);padding:1%">
+      <lightning-tile>
+        <div style="display:flex;flex-direction:row;width:100%">
+          <lightning-icon icon-name="standard:groups"></lightning-icon>
+          <h2 style="font-size:revert;margin-left:2%">{label}</h2>
+        </div>
+      </lightning-tile>
+      <template if:true={isButtonVisible}>
+        <lightning-button variant="brand" label="Edit" onclick={handleEdit} style="background-color:white;color:skyblue">
+      </lightning-button>
+    </template> 
+    </div>
+    <lightning-datatable key-field="name" data={selectedUserNames} columns={columns}>
+    </lightning-datatable>
+  </template>
+  
+
+</template>

@@ -1,0 +1,26 @@
+<template>
+    <template if:true={SelecttenantId}>
+        <lightning-record-edit-form object-api-name="dcmgt_Alation_Data_Dictionary__c" onsuccess={handleSuccess} record-id={dataSourceId}>
+            <div class="slds-m-around_medium">
+                <lightning-input-field field-name='Name'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Data_Owner__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Data_Classification__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Description__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Data_Retention_Policy__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Data_Sharing_Policy__c'></lightning-input-field>
+                <!-- <lightning-input-field field-name='dcmgt_Data_Steward__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Public_Schema_Visibility__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Staged_Data_Dictionary__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_IsActive__c'></lightning-input-field>
+                <lightning-input-field field-name='dcmgt_Connection_String__c'></lightning-input-field> -->
+
+                <div class="slds-m-top_medium">
+                    <lightning-button variant="brand" type="submit" name="save" label="Submit"></lightning-button>
+                </div>
+            </div>
+        </lightning-record-edit-form>
+    </template>
+    <template if:false={SelecttenantId}>
+        Please select the Tenent First
+    </template>
+</template>

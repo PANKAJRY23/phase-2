@@ -1,0 +1,81 @@
+<template>
+    <lightning-card>   
+        <div class="slds-float_center slds-m-bottom_large" style="font-size: medium;">
+            <h1>Current Subscriptions</h1>           
+        </div>
+        <div class="container-fluid"> 
+            <div style="height: 300px;overflow: auto;">
+                <table class="slds-table slds-table_bordered  no-border" > 
+                    <thead>
+                        <tr class="slds-text-title_caps">                   
+                            <th scope="col" >
+                                <div class="slds-truncate">Data Source</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" >Data Asset</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Expiration</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" ><p>Request</p><p>Extension</p></div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Action</div>
+                            </th>
+                            
+                        </tr>
+                    </thead>   
+                    <tbody>      
+                        
+                        <template for:each={data} for:item="dataValue" for:index="indx">
+                            
+                            <tr key={dataValue.Id} id={dataValue.Id}> 
+                                
+                                <!-- <td>{indx}</td>       oncommit={handleNameChange}                                      -->
+                                <td>
+                                    <template if:true={dataValue.dcmgt_Data_Subscription_Request__r.dcmgt_Alation_Data_Dictionary__c}>
+                                        <lightning-formatted-text data-id={dataValue.Id} value={dataValue.dcmgt_Data_Subscription_Request__r.dcmgt_Alation_Data_Dictionary__r.Name}
+                                                        ></lightning-formatted-text>
+                                    </template>                               
+                                </td>
+                                <td>
+                                    <lightning-formatted-text data-id={dataValue.Id} value={dataValue.dcmgt_Data_Asset_Name__c}
+                                                        ></lightning-formatted-text> 
+                                </td>
+                                <td>
+                                    
+                                    <lightning-formatted-date-time value={dataValue.dcmgt_Expiration_Date__c}></lightning-formatted-date-time>
+                                </td> 
+                                <td>
+                                    <div class="slds-align_absolute-center">   
+                                        <lightning-input type="checkbox" data-id={dataValue.Id} onchange={onCheckBoxSelect} ></lightning-input>
+                                    </div>
+                                </td>   
+                                <td>
+                                    <lightning-button-icon icon-name="utility:preview"
+                                                        data-id={dataValue.Id}   
+                                                        data-value={indx}  
+                                                        alternative-text="View"     
+                                                        class="slds-m-left_xx-small"   
+                                                        onclick={navigateToViewDriverPage}                                                                         															 
+                                                        title="View"></lightning-button-icon>
+                                </td>                                         
+                            
+                            </tr>
+                        </template>
+                        
+                    </tbody>
+                </table>  
+            </div>       
+            <div>
+                <lightning-input-rich-text variant="label-hidden" value={extendComment} onblur={richTextArea} > </lightning-input-rich-text>
+                <lightning-combobox value={selectedOptionsOfExtention} options={ExtendedTimeOptions} label="Desired Subscription length" onchange={selectTimeOptions} >
+                                </lightning-combobox>
+            </div>
+            <div class="slds-float_right slds-m-top_large" >
+                <lightning-button variant="brand" label="Extend Subscription" title="Extend Subscription" onclick={extendSubscription}  ></lightning-button>
+            </div>          
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,90 @@
+<template>
+<template if:true={showHighlightPanel}>
+   <lightning-card>
+        <div slot="title" if:true={data}>
+          <lightning-icon icon-name="standard:approval" size="medium"></lightning-icon>
+          <div style="display:inline-flex;flex-direction:column;margin-left:12px;vertical-align:middle">
+            <text style="font-size:small;font-weight:400">Approval Request</text>
+            <text>{data.objectLabel} Approval</text>
+          </div>
+        </div>
+        <div slot="actions">
+            <lightning-button variant="brand" data-id="Approve" label="Approve" onclick={handleApproveClick} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" data-id="Reject" label="Reject" onclick={handleRejectClick} class="slds-m-left_x-small" ></lightning-button>
+
+           <!--<lightning-button data-id="Reassign" label="Reassign" onclick={handleReassignClick}></lightning-button>--> 
+        </div>
+        <template if:true={data}>
+            <ul class="slds-list_horizontal">
+                <li style="padding-left:2%;padding-right:3%">
+                    <div style="display:flex;flex-direction:column">
+                    <label>Submitter</label>
+                    <text>{data.submitter}</text>
+                    </div>
+                </li>
+                <li style="padding-left:2%;padding-right:3%">
+                    <div style="display:flex;flex-direction:column">
+                    <label>Date Submitted</label>
+                    <text>{data.createdDate}</text>
+                    </div>
+                </li>
+                <li style="padding-left:2%;padding-right:3%">
+                    <div style="display:flex;flex-direction:column">
+                    <label>Actual Approver</label>
+                    <text>{data.actualApprover}</text>
+                    </div>
+                </li>
+                <li style="padding-left:2%;padding-right:3%">
+                    <div style="display:flex;flex-direction:column">
+                    <label>Assigned To</label>
+                    <text>{data.assignedTo}</text>
+                    </div>
+                </li>
+              </ul>
+        </template>
+
+        <c-dcmgt_modal data-id="submitForApproval" onclosedialog={handleModalCancel}>
+            <div slot="header">{modalTitle}</div>
+            <div class="slds-form-element" if:true={showCommentModal}>
+              <lightning-input
+                data-id="comment"
+                type="text"
+                label="Comments"
+                value=""
+                required
+              ></lightning-input>
+							<div if:true={hideEffectiveDateOnReject}>
+            <br><br><label>Approval Effective Date </label>
+            <input data-id="effectiveDate" type="date" min={todaydate} format="MM-DD-YYYY" value={todaydate} required></input>
+        </div>
+            </div>
+            <div class="slds-form-element lookup-form" if:true={showLookupModal}>
+              <c-dcmgt_lookup
+                errors={lookupErrors}
+                onsearch={handleLookupSearch}
+                onselectionchange={handleSelectionChange}
+                label={lookupLabel}
+                placeholder="Search Users..."
+                is-multi-entry={isMultiEntry}
+                required
+              >
+              </c-dcmgt_lookup>
+            </div>
+            <div slot="footer">
+              <lightning-button
+                data-id="Cancel"
+                label="Cancel"
+                onclick={handleModalCancel}
+              ></lightning-button>
+              <lightning-button
+                data-id="Submit"
+                label={modalsubmitLabel}
+                variant="brand"
+                class="slds-p-left_small"
+                onclick={handleModalSubmit}
+              ></lightning-button>
+            </div>
+          </c-dcmgt_modal>
+    </lightning-card>
+</template>
+</template>

@@ -1,0 +1,50 @@
+<template>
+    <lightning-card>
+        
+        <template if:true={datasets}>            
+            
+            <div slot="actions">
+                <lightning-button label="Subscribe" slot="actions" onclick={navigateNext}></lightning-button>
+            </div>
+            
+            <div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                <lightning-layout multiple-rows>
+                    <template for:each={datasets} for:item="item" for:index="index">
+                        <lightning-layout-item key={item.Id} size="12" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                            <div class="flip-card">
+                                <div  class="flip-card-inner" key={item.Id} data-row-index={item.Id} data-id={item.Id}>
+                                    <div class="flip-card-front">
+                                        <!-- <img src="https://www.w3schools.com/w3css/img_avatar3.png" alt="Avatar" style="width:200px;height:200px;"> -->
+                                        <!-- <div class="slds-text-color_destructive">{item.Name}</div> -->
+                                        <lightning-input class="slds-p-left_x-small" type="checkbox" data-id={item.Id} onchange={onCheckBoxSelect}></lightning-input>
+
+                                        <p class="slds-p-around_x-small">Name: {item.Name}</p>
+                                        <!-- <p class="slds-p-around_x-small">Description: {item.dcmgt__Description__c}</p> -->
+                                        <p class="slds-p-around_x-small">
+                                            Description: <lightning-formatted-rich-text value={item.dcmgt__Description__c} >                                        
+                                            </lightning-formatted-rich-text>
+                                        </p>
+                                    </div>
+                                    <!-- <div class="flip-card-back">
+                                        <p class="slds-p-around_x-small"><text class="slds-text-title_caps" style="text-align: center;">{item.Name}</text></p>
+                                        <p class="slds-p-around_x-small">Title: {item.Title}</p>
+                                        <p class="slds-p-around_x-small">Email: {item.Email}</p>
+                                        <p class="slds-p-around_x-small">Department: {item.Department}</p>
+                                    </div> -->
+                                </div>
+                            </div> 
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </div>
+            
+               
+        </template>
+        <template if:false={datasets}>
+            <div class="slds-p-around_large defaultMessage">  
+                <p class="slds-p-around_small">There are no data products matching your current selection.</p>
+            </div>
+        </template>        
+       
+    </lightning-card> 
+</template>

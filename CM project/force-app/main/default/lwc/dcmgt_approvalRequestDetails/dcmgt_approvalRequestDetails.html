@@ -1,0 +1,109 @@
+<template>
+    <lightning-card title="Approval Request Details">
+        <template if:true={aprrovalDetails}>
+            <div class="slds-p-horizontal_medium">
+                <table class="slds-p-around_x-small">
+                    <thead>
+                        <tr >
+                            <th style="width: 8%;">
+                                Change Request Id
+                            </th>
+                            <th style="width: 8%;">
+                                Name
+                            </th>
+                            <th style="width: 8%;">
+                                Requester
+                            </th>
+
+                            <!-- <th>
+                                &nbsp;&nbsp;Requestor Role Type
+                            </th> -->
+                            <th style="width: 8%;">
+                                Approver
+                            </th>
+                            <th style="width: 8%;">
+                                Approver Role
+                            </th>
+                            <th style="width: 8%;">
+                                Last Modified By
+                            </th>
+                            <th style="width: 8%;">
+                                Requested Date
+                            </th>
+                            <th style="width: 8%;">
+                                 Status
+                            </th>
+                            <th style="width: 8%;">
+                                Attribute
+                            </th>
+                            <th style="width: 8%;">
+                                Old Value
+                            </th>
+                            <th style="width: 8%;">
+                                New Value
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={aprrovalDetails} for:item="row">
+                            <!-- <template for:each={aprrovaldetails} for:item="fieldName"> -->
+                                <tr key={fieldName} style="width: fit-content;">
+                    
+                                <td>
+                                    <span><a href={row.changeRequestUrl} target="_blank" title={row.changeRequestName}>{row.changeRequestName}</a></span>
+                                </td>
+                                <td>
+                                    <span><a href={row.stagedRecordUrl} target="_blank" title={row.stagedRecordName}>{row.stagedRecordName}</a></span>
+                                </td>
+                                <!-- <td>
+                                    <span><a href={aprrovalDetails.stagedRecordUrl} target="_blank" title={aprrovalDetails.stagedRecordName}>{aprrovalDetails.stagedRecordName}</a></span>
+                                </td> -->
+                                <td>
+                                    <span>{row.Requester}</span>
+                                </td>
+                                <!-- <td>
+                                    &nbsp;&nbsp;<span>{row.Requesttype}</span>
+                                </td> -->
+                                <td>
+                                    <span>{row.approver}</span>
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp;<span>{row.approvertype}</span>
+                                </td>
+                                <td>
+                                    <span>{row.LastModifiedBy}</span>
+                                </td>
+                                <td>
+                                    <span>{row.RequestedDate}</span>
+                                </td>
+                                <td>
+                                    <span>{row.Status}</span>
+                                </td>
+                                
+                                            <td>
+                                                <span>{row.fieldName}</span>
+                                            </td>
+                    
+                              
+                                    
+                                            <td>
+                                                <span>{row.Oldvalue}</span>
+                                            </td>
+                                      
+                               
+                               
+                                            <td>
+                                                <span>{row.Newvalue}</span>
+                                            </td>
+                            </tr>
+                        <!-- </template> -->
+                        </template>
+                    </tbody>
+                
+
+                </table>
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

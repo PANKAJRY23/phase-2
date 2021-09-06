@@ -1,0 +1,5 @@
+.datePicker{
+    position: fixed;
+    z-index:10001;
+    height:auto;
+}

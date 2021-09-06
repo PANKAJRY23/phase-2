@@ -1,0 +1,256 @@
+<template>
+    
+    <div >
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading..."
+                variant="brand"
+                size="large">
+            </lightning-spinner>
+        </template>
+<lightning-card title="">
+    <div>
+            <lightning-record-edit-form object-api-name={objectName} onsuccess={handleSuccess}  onsubmit ={preventDefaults}> 
+                <lightning-messages></lightning-messages>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size='3' class="slds-p-horizontal_small">
+                        <div>
+                            <span class="helpTextIcon"><span style="color: red;">*</span>Request Type
+                            <lightning-helptext class="slds-m-left_x-small" styel="display:inline-flex;" content="Please select the request type. "></lightning-helptext>
+                            </span>
+                            <lightning-input-field class="slds-p-around_xxx-small resetField" variant = "label-hidden" field-name={requestType} onchange={handleRequestTypeChange} required></lightning-input-field>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size='3' class="slds-p-horizontal_small">
+                        <div>
+                            <template if:true={isGlossary}>
+                                <div>
+                                    <span class="helpTextIcon"><span style="color: red;">*</span>Glossary
+                                    <lightning-helptext class="slds-m-left_x-small" styel="display:inline-flex;" content="Select the glossary for which you want to submit a change request.. "></lightning-helptext>
+                                    </span>
+                                <!-- <label class="slds-form-element__label" style="margin-right: 0.5rem;">Business Glossary</label> -->
+                                <lightning-input-field class="slds-p-around_xxx-small resetField"  variant = "label-hidden" field-name={glossary}  onchange={glossaryChangeHandler} required></lightning-input-field>
+                                </div>
+                            </template>
+                            <template if:true={isDataDictionary}>
+                                <div>
+                                    <span class="helpTextIcon"><span style="color: red;">*</span>Data Dictionary
+                                    <lightning-helptext class="slds-m-left_x-small" styel="display:inline-flex;" content="Select the data dictionary for which you want to submit a change request. "></lightning-helptext>
+                                    </span>
+                                <!-- <label class="slds-form-element__label" style="margin-right: 0.5rem;">Data Dictionary</label> -->
+                                <lightning-input-field class="slds-p-around_xxx-small resetField" variant = "label-hidden" field-name={dataDictionary}  onchange={dictionaryChangeHandler} required></lightning-input-field>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size='2' class="slds-p-horizontal_small">
+                        <template if:true={isPriorityVisible}>
+                            <div>
+                                <span class="helpTextIcon">Priority
+                                    <lightning-helptext class="slds-m-left_x-small" styel="display:inline-flex;" content="Select priority for the change request. "></lightning-helptext>
+                                </span>
+                                <lightning-input-field class="slds-p-around_xxx-small resetField" field-name={priority} variant = "label-hidden" value={priorityValue} onchange={priorityChangeHandler}></lightning-input-field>
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item size='2' class="slds-p-horizontal_small">
+                        <div>
+                            <span>Submitted By</span>
+                            <lightning-input-field class="slds-p-around_xxx-small" field-name={submittedBy} value={currentUserName} disabled="true" variant = "label-hidden"></lightning-input-field>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size='2' class="slds-p-horizontal_small">
+                        <div>
+                            <span>Request Effective Date</span>
+                            <lightning-input  disabled="true" value={currentDate} variant = "label-hidden"></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                    
+                        <lightning-layout-item size='3' class="slds-p-horizontal_small">
+                            <template if:true={isChangeRequestTypeVisible}>
+                                <div class="slds-box slds-box_xx-small ">
+                                    <lightning-input-field class="slds-p-around_xxx-small slds-hide resetField" field-name={changeRequestType}  value={changeRequestTypeValue}></lightning-input-field>
+                                    <!-- <lightning-helptext content="Select Single if you want to create change request for single record and if you want to sumbit your request for bulk data then select bulk"></lightning-helptext> -->
+                                    <lightning-radio-group name="radioGroup"
+                                        options={radioOptions}
+                                        type="radio"
+                                        value={changeRequestTypeValue}
+                                        onchange={changeTypeHandler}
+                                        style="display:inline-block !important"
+                                        >
+                                    </lightning-radio-group>
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+                        <lightning-layout-item size='3' class="slds-p-horizontal_small">
+                            <template if:true={isChangeTypeVisible}>
+                                    <lightning-combobox
+                                            name="changeType"
+                                            label="Change Type"
+                                            value={selectedChangeType}
+                                            placeholder="Select Change Type"
+                                            options={options}
+                                            onchange={opperationChangeHandler}
+                                            disabled={isChangeTypeDisabled}
+                                             ></lightning-combobox>   
+                                    <lightning-input-field class="slds-p-around_xxx-small slds-hide resetField" field-name={changeType} value={selectedChangeType} disabled={isChangeTypeDisabled}></lightning-input-field>
+                            </template>
+                        </lightning-layout-item>
+
+                        <!-- <lightning-layout-item size='3' class="slds-p-horizontal_small">
+                            <div>
+                                <lightning-input label="Article Name" type="search" placeholder={placeHolder} variant="label-hidden" onchange={handleSearch} class="vk-pagination-search"></lightning-input>       
+                            </div>
+                        </lightning-layout-item> -->
+                    <!-- <template if:true={isSingleAdd}>
+                        <lightning-layout-item size='3' class="slds-p-horizontal_small">
+                            <div>
+                                <lightning-combobox options={singleAddAtributesOptions} value={selectedSingleAddAtributes} onchange={attributeChangeHandler} label="Attribute" placeholder="Select Attribute"></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                    </template> -->
+                    
+                    <template if:true={isBulkSelected}>
+                        <lightning-layout-item size='6' >
+                            <div class="slds-m-top_medium slds-m-right_medium slds-clearfix">
+                            
+                                <div class="slds-float_right slds-box slds-box_x-small">
+                                    <lightning-button variant="upload" label="Upload" title="Upload action" onclick={handleClick}></lightning-button>
+                                    <lightning-helptext class="slds-m-left_x-small" content="Click on the Upload button to upload yor csv file. "></lightning-helptext>
+                                <!-- </div> -->
+                                <!-- <div > -->
+                                    <lightning-button class="slds-m-left_medium" variant="downLoad" label={downloadBtnLabel} title="Download" onclick={handleDownloadClick}></lightning-button>
+                                    <lightning-helptext class="slds-m-left_x-small" content="Click on the Download button to download csv file. And please do not change file headers."></lightning-helptext>
+                                </div>
+                        
+                            </div>  
+                        </lightning-layout-item>           
+                    </template>
+                </lightning-layout>
+                <template if:false={isSubmitButtonDisable}>
+                <lightning-layout >
+                    <!-- <lightning-layout-item class="slds-clearfix"> -->
+                    <lightning-layout-item size="12" class="slds-clearfix">
+                        <div class="slds-float_right slds-m-right_medium">
+                            
+                            <lightning-button 
+                                class="slds-button slds-p-right_medium" 
+                                label="Cancel" 
+                                variant="brand"
+                                onclick={handleReset}>
+                            </lightning-button>
+                            <!-- <lightning-helptext content="Click on the Cancel button to cancel the request."></lightning-helptext> -->
+                        
+                            <lightning-button 
+                                type="submit"
+                                variant="brand"
+                                label="Submit" 
+                                disabled={isSubmitButtonDisable}
+                                onclick={saveAndNewClick}
+                            ></lightning-button>
+                            <!-- <lightning-helptext content="Click on the Submit button to submit the request."></lightning-helptext> -->
+                        </div>
+                    </lightning-layout-item>
+                    <!-- </lightning-layout-item> -->
+                </lightning-layout> 
+            </template>
+            </lightning-record-edit-form> 
+            </div>
+
+            <template if:true={showCustomTable}>
+                <c-dcmgt_generic-data-table button-name={buttonName} change-type={changeRequestTypeValue} requesttype={selectedRequestType} show-checkbox={showCheckbox} is-non-editable={isNonEditable} table-data={tableData} table-column={columns} onsave={tableSaveHandler}></c-dcmgt_generic-data-table>
+                <!-- <c-generic-data-table button-name={buttonName} show-checkbox={showCheckbox} is-non-editable={isNonEditable} table-data={aliationData} table-column={aliationArticleColumns} onsave={tableSaveHandler}></c-generic-data-table> -->
+            </template>
+            <template if:true={showDeleteCustomTable}>
+                <c-dcmgt_generic-data-table button-name={buttonName} change-type={changeRequestTypeValue} show-checkbox={showCheckbox} is-non-editable={isNonEditable} table-data={tableData} table-column={columns} onsave={tableSaveHandler} is-delete></c-dcmgt_generic-data-table>
+            </template>
+            <template if:true={isDataUploaded}>
+                <c-dcmgt_generic-data-table button-name={buttonName} change-type={changeRequestTypeValue} show-checkbox={showCheckbox} table-data={tableData} table-column={columns} onsave={tableSaveHandler}></c-dcmgt_generic-data-table>
+            </template>
+            
+            <!-- <template if:true={isStdDataTable}>
+                <lightning-datatable key-field="Id" data={tableData} columns={columns} show-row-number-column
+                row-number-offset={rowOffset}
+                suppress-bottom-bar></lightning-datatable>
+            </template> -->
+            
+            <template if:true={isUploadModelOpen}>
+                <c-dcmgt_upload-popup 
+                is-modal-open={isUploadModelOpen} 
+                display-message={modelMessageforUpload} 
+                request-type={selectedRequestType}
+                change-type={selectedChangeType}
+                required-fields ={requiredFieldsForDownload}
+                onclose={closeUploadHandler}></c-dcmgt_upload-popup>
+                <!-- original-data={tableData} -->
+            </template>
+            <!-- <template if:true={isRecodEditModelOpen}>
+                <c-glossaryeditform is-modal-open={isRecodEditModelOpen} display-message={modelMessageforRecordEdit} onclose={closeRecordEditHandler} onsubmit={handleSubmitOnAddModalForms}></c-glossaryeditform>
+            </template>
+            <template if:true={isDictionaryRecodEditModelOpen}>
+                <c-dictionaryeditform is-modal-open={isDictionaryRecodEditModelOpen} display-message={modelDictionaryMessageforRecordEdit} onclose={closeDictionaryRecordEditHandler} onsubmit={handleSubmitOnAddModalForms}></c-dictionaryeditform>
+            </template> -->
+            <template if:true={isDownloadModelOpen}>
+                <c-dcmgt_download-popup 
+                    is-modal-open={isDownloadModelOpen} 
+                    display-message={modelMessageforDownload} 
+                    change-request-type ={selectedChangeType}
+                    selected-request-type={selectedRequestType}
+                    csv-data={tableData}
+                    required-fields ={requiredFieldsForDownload}
+                    onclose={closeHandler}></c-dcmgt_download-popup>
+            </template>
+            <template if:true={isSelectedDownloadModelOpen}>
+                <c-dcmgt_download-popup 
+                    is-modal-open={isSelectedDownloadModelOpen} 
+                    display-message={selectedModelMessageforDownload} 
+                    change-request-type ={selectedChangeType}
+                    selected-request-type={selectedRequestType}
+                    csv-data={downloadData}
+                    onclose={closeHandler}></c-dcmgt_download-popup>
+            </template>
+            </lightning-card>
+        
+    </div>
+    <!-- <lightning-card title="Export Data Dictionary Data as CSV" icon-name="custom:custom63" if:true={dictionaryDownloadMode}>
+        <template if:true={data}>
+            <div class="slds-p-around_medium lgc-bg-inverse">
+                <p>Do you want download data as a CSV format, Click Here &nbsp;
+                    <lightning-button icon-name="utility:download" 
+                                      label="Download as CSV" 
+                                      title="Download CSV File"
+                                      onclick={downloadCSVFile} variant="brand"></lightning-button>
+                </p>
+            </div>
+            <div class="slds-m-around_medium">
+                    <lightning-datatable columns={dataAssertColumns}
+                                         data={data} 
+                                         hide-checkbox-column="true"
+                                         key-field="id"></lightning-datatable>
+            
+            </div>
+        </template>
+    </lightning-card> -->
+
+
+    <!-- <lightning-card title="Export Glossary Data as CSV" icon-name="custom:custom63" if:true={businessDownloadMode}>
+        <template if:true={businessData}>
+            <div class="slds-p-around_medium lgc-bg-inverse">
+                <p>Do you want download data as a CSV format, Click Here &nbsp;
+                    <lightning-button icon-name="utility:download" 
+                                      label="Download as CSV" 
+                                      title="Download CSV File"
+                                      onclick={downloadGlossaryCSVFile} variant="brand"></lightning-button>
+                </p>
+            </div>
+            <div class="slds-m-around_medium">
+                    <lightning-datatable columns={articleColumns} 
+                                         data={businessData} 
+                                         hide-checkbox-column="true"
+                                         key-field="id"></lightning-datatable>
+            
+            </div>
+        </template>
+    </lightning-card> -->
+    
+</template>

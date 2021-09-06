@@ -1,0 +1,6 @@
+.resetField lightning-helptext{
+    display:none !important;
+}
+.helpTextIcon .slds-form-element__icon{
+  padding-top: 0px !important;
+}

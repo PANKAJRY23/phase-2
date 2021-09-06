@@ -1,0 +1,100 @@
+<template>
+    <template if:true={SubscriptionRecord}>
+    <lightning-card>          
+        
+        <div class="container-fluid">        
+            <table class="slds-table slds-table_bordered  no-border" > 
+                <thead>
+                    <tr class="slds-text-title_caps">                   
+                        <th scope="col" >
+                            <div class="slds-truncate"><p>Data</p><p>Source</p></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate"><p>Data</p><p>Asset</p></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate"><p>Data</p><p>Classification</p></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate"><p>Data Load</p></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate"><p>Access</p><p>Layer</p></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate"><p>Refresh</p><p>Frequency</p></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate">SLA</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate">Communication</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate">Expiration</div>
+                        </th>
+                        
+                    </tr>
+                </thead>   
+                <tbody>      
+                    
+                    <template for:each={data} for:item="dataValue" for:index="indx">
+                        
+                        <tr key={dataValue.Id} id={dataValue.Id}>                         
+                            
+                            <td>
+                                <lightning-formatted-text data-id={dataValue.Id} value={dataValue.DataSource}></lightning-formatted-text>                                
+                            </td>
+                            <td>
+                                <lightning-formatted-text data-id={dataValue.Id} value={dataValue.DataAsset}></lightning-formatted-text>
+                            </td>
+                            <td>
+                                <lightning-formatted-text data-id={dataValue.Id} value={dataValue.DataClassification}></lightning-formatted-text>
+                            </td> 
+                            <td>
+                                <lightning-combobox data-id={dataValue.Id} name="dcmgt_Data_Load__c" value={dataValue.DataLoad} data-value={indx}
+                                                        options={dataLoadOptions} variant="label-hidden" onchange={SaveHandler}> 
+                                </lightning-combobox>
+                            </td>          
+                            <td>
+                                <lightning-combobox data-id={dataValue.Id} name="dcmgt_Access_Layer__c" value={dataValue.AccessLayer} data-value={indx}
+                                                        options={AccessLayerOptions} variant="label-hidden" onchange={SaveHandler}> 
+                                </lightning-combobox>                          
+                            </td>
+                            <td>
+                                <lightning-combobox data-id={dataValue.Id} name="dcmgt_Refresh_Frequency__c" value={dataValue.RefershFrequency} data-value={indx}
+                                                        options={RefershFrequencyOptions} variant="label-hidden" onchange={SaveHandler}> 
+                                </lightning-combobox>
+                            </td>
+                            <td>
+                                <lightning-input data-id={dataValue.Id} name="dcmgt_SLA__c" value={dataValue.SLA} data-value={indx}
+                                            variant="label-hidden" placeholder="Type here" onblur={SaveHandler}></lightning-input>
+                            </td> 
+                            <td>
+                                <lightning-combobox data-id={dataValue.Id} name="dcmgt_Comunication_Email_Chatter__c" value={dataValue.Communication} data-value={indx}
+                                                        options={CommunicationOptions} variant="label-hidden" onchange={SaveHandler}> 
+                                </lightning-combobox>
+                            </td>
+                            <td>
+                                <lightning-input type="date" data-id={dataValue.Id} name="dcmgt_Expiration_Date__c" value={dataValue.Expiration} data-value={indx}
+                                                    variant="label-hidden" placeholder="type here..." onchange={SaveHandler}></lightning-input>
+                            </td>                                     
+                        
+                        </tr>
+                    </template>
+                    
+                </tbody>
+            </table>  
+                        
+        </div>
+    </lightning-card>
+    <div style="padding-left: 20%; width: 70%;">
+        <lightning-input-rich-text variant="label-inline"  label="Business Justification" label-visible="true" value={businessJustification} onblur={updateRichTextFunction}> </lightning-input-rich-text>
+    </div> 
+</template>
+<template if:false={SubscriptionRecord}>
+    Kindly Create Subscrtion Record from Home Page
+</template> 
+    
+    
+</template>

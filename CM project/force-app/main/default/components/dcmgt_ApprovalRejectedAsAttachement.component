@@ -1,0 +1,9 @@
+<apex:component controller="dcmgt_RejectionEmailChangeRequest" access="global" >Name,Term Type,Requester,Approver,Last Modified By,Requested Date,Status,Attribute,Old value,New value
+    <apex:attribute name="recId" type="Id" description="Id of the record" assignTo="{!recordId}"/>
+    <apex:attribute name="isAttachment" type="Boolean" description="true if used for attachement" assignTo="{!isAttachement}"/>
+    <apex:repeat value="{!ApprovalRequestDetails}" var="column">
+             <apex:repeat value="{!column.approvalRecordWrapper}" var="row">
+{!column.stagedRecordName},{!column.RecordType},{!column.Requester},{!column.approver},{!column.LastModifiedBy},{!column.RequestedDate},{!column.Status},{!row.fieldName},{!row.Oldvalue},{!row.Newvalue}
+             </apex:repeat>     
+        </apex:repeat> 
+</apex:component>
