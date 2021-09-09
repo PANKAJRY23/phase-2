@@ -1,0 +1,44 @@
+<template>
+    <div>
+        <div class="slds-clearfix">
+            <lightning-button variant="brand" 
+                label="Register New Service" 
+                title="Register New Service" 
+                onclick={newClickHandler} 
+                class="slds-m-left_x-small slds-m-bottom_large slds-float_right">
+            </lightning-button>
+        </div>
+        <template if:true={isCreateModelOpen}>
+            <c-dcmgt_create-new-record-comp object-name={objectName}
+                field-list={fieldList}
+                is-modal-open
+                title={title}
+                onclose={closeHandler}>
+            </c-dcmgt_create-new-record-comp>
+        </template>
+        <div>
+            <template if:true={servicesNameList}>
+                <lightning-combobox
+                    variant="label-inline"
+                    name="ServiceName"
+                    label="Service Name"
+                    value={selectedService}
+                    placeholder="Select Progress"
+                    options={servicesNameList}
+                    onchange={ServiceChangeHandler} ></lightning-combobox>
+            </template>
+            <template if:false={servicesNameList}>
+                <div>
+                    <span>No Service available for the selected Tenant</span>
+                </div>
+            </template>
+            <template if:true={selectedService}>
+                <lightning-input variant="label-inline" label="Service Owner" value={ServiceAdmin} read-only></lightning-input>
+                <lightning-textarea variant="label-inline"  label="Service Description" value={ServiceDescription} read-only></lightning-textarea>
+                <lightning-input variant="label-inline" label="Data classification" value={dataClassification} read-only></lightning-input>
+                <!-- <lightning-input-rich-text variant="label-inline" label-visible  label="Tenant Description" value={tenantDescription} disabled></lightning-input-rich-text> -->
+            </template>
+            
+        </div>
+    </div>
+</template>

@@ -1,0 +1,117 @@
+<template>
+    <div>
+      <lightning-card>
+        <h3 slot="title">
+          <lightning-icon
+            icon-name="standard:approval"
+            size="small"
+          ></lightning-icon>
+          <a
+            class="slds-card__header-link slds-p-left_medium"
+            if:true={approvalHistory}
+            >Approval History ({approvalHistory.approvalStepsSize})</a
+          >
+        </h3>
+        <div slot="actions" if:true={approvalHistory}>
+          <lightning-button
+            data-id="SubmitForApproval"
+            label="Submit for Approval"
+            if:true={showSubmitForApprovalButton}
+            onclick={handleSubmitForApprovalClick}
+          ></lightning-button>
+          <lightning-button
+						 variant="brand"								
+            data-id="Approve"
+            label="Approve"
+            if:true={approvalHistory.isCurrentUserApprover}
+            onclick={handleApproveClick}
+						class="slds-m-left_x-small"
+          ></lightning-button>
+          <lightning-button
+						variant="brand"								
+            data-id="Reject"
+            label="Reject"
+            if:true={approvalHistory.isCurrentUserApprover}
+            onclick={handleRejectClick}
+						class="slds-m-left_x-small"
+          ></lightning-button>
+        </div>
+        <template if:true={showDataTable}>
+          <lightning-datatable
+            key-field="id"
+            data={approvalHistory.approvalSteps}
+            columns={columns}
+            hide-checkbox-column
+            class="myApprovalHistoryTable"
+          ></lightning-datatable>
+          
+        </template>
+        <template if:true={viewAll}>
+          <!-- needed to use the footer class because the tob bar looked weird with the datatable component on top-->
+            <div  class="slds-align_absolute-center" >
+                <!-- <lightning-formatted-url
+                    value={viewAllUrl}
+                    label="View All"
+                    class="slds-m-top_x-small"
+                ></lightning-formatted-url> -->
+                <lightning-button 
+                  variant="base" 
+                  label="View All" 
+                  title="View All" 
+                  onclick={handleViewAllClick} 
+                  class="slds-m-left_x-small">
+                </lightning-button>
+            </div>
+          <!-- <center>
+            <p  class="slds-p-around_large">
+              <lightning-formatted-url
+                value={viewAllUrl}
+                label="View All"
+              ></lightning-formatted-url>
+            </p>  
+          </center> -->
+          
+        </template>
+                        
+  
+        <c-dcmgt_modal data-id="submitForApproval" onclosedialog={handleModalCancel}>
+          <div slot="header">{modalTitle}</div>
+          <div class="slds-form-element" if:true={showCommentModal}>
+            <lightning-input
+              data-id="comment"
+              type="textarea"
+              label="Comments"
+              required
+            ></lightning-input>
+             <div if:true={hideEffectiveDateOnReject}>
+            <br><br><label>Approval Effective Date </label>
+            <input data-id="effectiveDate" type="date" min={todaydate} format="MM-DD-YYYY" value={todaydate} required></input>
+        </div>
+          </div>
+          <div slot="footer">
+            <lightning-button
+              data-id="Cancel"
+              label="Cancel"
+              onclick={handleModalCancel}
+            ></lightning-button>
+            <lightning-button
+              data-id="Submit"
+              label={modalsubmitLabel}
+              variant="brand"
+              class="slds-p-left_small"
+              if:false={publicationrequest}
+              onclick={handleModalSubmit}
+            ></lightning-button>
+            <lightning-button
+            data-id="Submit"
+            label={modalsubmitLabel}
+            variant="brand"
+            class="slds-p-left_small"
+            if:true={publicationrequest}
+            onclick={handlePublicationSubmit}
+          ></lightning-button>
+          </div>
+        </c-dcmgt_modal>
+      </lightning-card>
+    </div>
+  </template>

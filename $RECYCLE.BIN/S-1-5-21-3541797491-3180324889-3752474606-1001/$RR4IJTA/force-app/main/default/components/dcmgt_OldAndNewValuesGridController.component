@@ -1,0 +1,51 @@
+<apex:component controller="dcmgt_OldAndNewValuesGridController" access="global" >
+     <apex:attribute name="recId" type="Id" description="Id of the record" assignTo="{!recordId}"/>
+     <apex:attribute name="isAttachment" type="Boolean" description="true if used for attachement" assignTo="{!isAttachement}"/>
+     <text>You are the assigned {!roleName} for the following metadata updates. Please review and approve this <a href="{!changeRequestURL}">Change Request</a>.</text>
+    <br/><br/>
+     <table border = "1" cellspacing = "1">
+        <tr>
+            <td>Name</td> 
+  <!--    <apex:outputText rendered="{!IF(isArticle,true,false)}">
+       
+            <td>Term Type</td>
+       
+    </apex:outputText>
+     <apex:outputText rendered="{!IF(isArticle,false,true)}">
+       
+           <td>Type</td>
+     
+    </apex:outputText>      -->       
+           
+            <td>Requester</td>  
+            <td>Approver</td>
+            <td>Approver Role</td>
+            <td>Last Modified By</td>    
+            <td>Requested Date</td>
+            <td>Status</td>  
+            <td>Review</td>
+            <td>Attribute</td>
+            <td>Old value</td>    
+            <td>New value</td>
+        </tr>
+        <apex:repeat value="{!OldAndNewValuesGrid}" var="column">
+             <td rowspan="{!column.rowSpan}">{!column.stagedRecordName}</td>
+            <!-- <td rowspan="{!column.rowSpan}">{!column.RecordType}</td> -->
+             <td rowspan="{!column.rowSpan}">{!column.Requester}</td>  
+             <td rowspan="{!column.rowSpan}">{!column.approver}</td>
+             <td rowspan="{!column.rowSpan}">{!roleName}</td>
+             <td rowspan="{!column.rowSpan}">{!column.LastModifiedBy}</td>     
+             <td rowspan="{!column.rowSpan}">{!column.RequestedDate}</td>     
+             <td rowspan="{!column.rowSpan}">{!column.Status}</td>
+             <td rowspan="{!column.rowSpan}"><a href="{!column.approvalRequestLink}">Approve</a>/<a href="{!column.rejectRequestLink}">Reject</a></td>  
+              <apex:repeat value="{!column.approvalRecordWrapper}" var="row"> 
+               <tr>
+                <td rowspan="1">{!row.fieldName}</td>
+                <td rowspan="1">{!row.Oldvalue}</td>     
+                <td rowspan="1">{!row.Newvalue}</td>  
+               </tr>
+             </apex:repeat> 
+            
+             </apex:repeat> 
+    </table>
+</apex:component>

@@ -1,0 +1,20 @@
+<template>
+    <div>
+        <div class="slds-clearfix">
+            <lightning-button variant="brand" 
+                label="Create New Data Source" 
+                title="Create New Data Source" 
+                onclick={newClickHandler} 
+                class="slds-m-left_x-small slds-float_right">
+            </lightning-button>
+        </div>
+        <template if:true={isCreateModelOpen}>
+            <c-dcmgt_create-new-record-comp object-name={objectName}
+                field-list={fieldList}
+                is-modal-open
+                title={title}
+                onclose={closeHandler}>
+            </c-dcmgt_create-new-record-comp>
+        </template>
+    </div>
+</template>

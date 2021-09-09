@@ -1,0 +1,7 @@
+td, th{
+    padding: 5px;
+}
+th{
+    text-align: center;
+    font-size: medium;
+}

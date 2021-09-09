@@ -1,0 +1,49 @@
+<!-- <template>
+    <lightning-datatable
+                key-field="Id"
+                data={tableData}
+                columns={columns}
+                show-row-number-column
+                row-number-offset={rowOffset}
+                hide-checkbox-column="true" 
+                onsave={saveHandler}
+                oncellchange={cellChangeHandler}
+                >
+        </lightning-datatable>
+</template> -->
+<template>
+    
+    <!-- <c-spinner if:true={isLoading} variant="brand" message={loadMessage}></c-spinner> -->
+    <lightning-card title="">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                variant="brand"
+                size="large">
+            </lightning-spinner>
+        </template>
+        <div if:true={error} class="slds-var-p-around_small slds-text-color_error">{error}</div>
+        <!--  -->
+        <template if:true={isDataAvailable}>
+            <c-dcmgt_custom-datatable
+                columns={tableColumn} 
+                records={tableData}
+                requesttype={requesttype}
+                show-row-number
+                show-checkbox={showCheckbox}
+                show-pagination
+                change-type={changeType}
+                place-holder="Search..." 
+                page-size-options={pageSizeOptions} 
+                button-name={buttonName}
+                is-delete={isDelete}
+                onrowselection={handleRowSelection} 
+                onsaveselectedrow = {saveSelectedRowHandler}
+                onsave={saveRecords}>
+            </c-dcmgt_custom-datatable>
+        </template>
+        <template if:false={isDataAvailable}>
+            <div class="slds-m-top_x-small slds-box slds-m-horizontal_small">No data avilable for the selected Information</div>
+        </template>
+        
+    </lightning-card>
+</template>

@@ -9,7 +9,7 @@ public class dcmgt_alation_article_managementTest {
         Object result=dcmgt_alation_article_management.getArticles('Business%20Glossary');
         Test.stopTest();
         System.debug((String)result);
-        System.debug((String)result1);      
+        System.assert(result!=null);        
     }
     
   @isTest

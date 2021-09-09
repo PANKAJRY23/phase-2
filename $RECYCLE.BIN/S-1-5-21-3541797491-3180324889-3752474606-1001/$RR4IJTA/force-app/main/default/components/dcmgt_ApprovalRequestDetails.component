@@ -1,0 +1,39 @@
+<apex:component controller="dcmgt_ApprovalReqDetailsController" access="global" >
+    <apex:attribute name="recId" type="Id" description="Id of the record" assignTo="{!recordId}"/>
+    <a href = "{!URL}">click here.</a><br/><br/>
+    <table border = "2" cellspacing = "5">
+        <tr>
+            <td>Change Request Id</td>
+            <td>Name</td>    
+            <td>Term Type</td>    
+            <td>Requester</td>  
+            <td>Approver</td>
+            
+            <td>Last Modified By</td>    
+            <td>Requested Date</td>    
+            <td>Status</td>  
+            <td>Attribute</td>
+            <td>Old value</td>    
+            <td>New value</td>
+            <td>Approve</td>
+            
+        </tr>
+        <apex:repeat value="{!ContactList}" var="row">
+            <tr>
+                <td>{!row.changeRequestName}</td>
+                <td>{!row.stagedRecordName}</td>     
+                <td>{!row.RecordType}</td>     
+                <td>{!row.Requester}</td>  
+                <td>{!row.approver}</td>
+                
+                <td>{!row.LastModifiedBy}</td>     
+                <td>{!row.RequestedDate}</td>     
+                <td>{!row.Status}</td>    
+                <td>{!row.fieldName}</td>
+                <td>{!row.Oldvalue}</td>     
+                <td>{!row.Newvalue}</td> 
+                <td><a href = "{!URL}">click here</a></td>
+            </tr>
+        </apex:repeat>        
+    </table>
+</apex:component>

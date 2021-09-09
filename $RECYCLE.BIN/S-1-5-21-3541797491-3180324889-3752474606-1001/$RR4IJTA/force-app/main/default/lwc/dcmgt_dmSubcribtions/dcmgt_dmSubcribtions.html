@@ -1,0 +1,42 @@
+<template>
+    <lightning-card>
+        <lightning-layout>
+            <lightning-layout-item size="8" >
+                <div class="slds-box slds-box_small">
+                    <lightning-accordion class="example-accordion"
+                                onsectiontoggle={handleToggleSection}
+                                active-section-name="Tenant Details">
+                        <lightning-accordion-section name="Tenant Details" label="Tenant Details">
+                            <!-- <c-dcmgt_tenant-details-comp></c-dcmgt_tenant-details-comp> -->
+                            <c-dcmgt_subscribe-tenant-obj-comp></c-dcmgt_subscribe-tenant-obj-comp>
+                        </lightning-accordion-section>
+
+                        <lightning-accordion-section name="Service Registry" label="Service Registry">
+                            <!-- <c-dcmgt_service-registry-comp></c-dcmgt_service-registry-comp> -->
+                            <c-dcmgt_subscribe-service-obj-comp></c-dcmgt_subscribe-service-obj-comp>
+                        </lightning-accordion-section>
+
+                        <lightning-accordion-section name="Data Source Details" label="Data Source Details">
+                            <c-dcmgt_data-source-subscribe-service-comp></c-dcmgt_data-source-subscribe-service-comp>
+                        </lightning-accordion-section>
+                        <lightning-accordion-section name="Data Asset Details" label="Data Asset Details">
+                            <c-dcmgt_data-assets-details></c-dcmgt_data-assets-details> 
+                        </lightning-accordion-section>
+                        
+                    </lightning-accordion>
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="4">
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center"  style="height:100%">
+                    <c-dcmgt_current-subscription-component></c-dcmgt_current-subscription-component>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+
+        <div slot="footer" class="slds-clearfix slds-m-top_small">
+            <lightning-button variant="brand" label="Subscribe" title="Subscribe" onclick={subscribeRequest} class="slds-m-left_x-small slds-float_right"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

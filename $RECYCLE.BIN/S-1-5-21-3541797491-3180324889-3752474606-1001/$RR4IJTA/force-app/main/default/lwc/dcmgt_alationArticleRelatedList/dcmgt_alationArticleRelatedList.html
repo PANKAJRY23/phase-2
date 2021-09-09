@@ -1,0 +1,127 @@
+<template>
+    <lightning-card>
+        <h3 slot="title">
+            <a
+              class="slds-card__header-link slds-p-left_medium"
+              if:true={data}
+              >Impacted Data Assets({dataLength})</a
+            >
+        </h3>
+        <template if:true={isLoading}>
+            <lightning-spinner
+                variant="brand"
+                size="large">
+            </lightning-spinner>
+        </template>
+<template if:true={isRecordsAvailable}>
+            <div class="slds-p-around_x-small custom-table-container">
+                <template if:true={showBulkApproveRejectButton}>
+                    <lightning-button variant="brand" 
+                        label="Approve Selected" 
+                        title="Approve Selected"
+                        onclick={handleApproveSelectedClick}>
+                    </lightning-button>
+                    <lightning-button variant="Destructive" 
+                        label="Reject Selected" 
+                        title="Reject Selected"
+                        onclick={handleRejectSelectedClick}>
+                    </lightning-button>
+                </template>
+
+<template if:true={isViewAllClicked}>
+    <lightning-button variant="Base" label="<Back to Change Request" title="Back to Change Request" onclick={navigateToChangeRequestRecordPage}>
+                    </lightning-button>
+                </template>
+
+<table border="1" cellspacing="1">
+    <tr style="width: fit-content;">
+        <th>
+            <lightning-input type="checkbox" onchange={selectAllCheckboxes} data-id="mainCheckBox"></lightning-input>
+        </th>
+        <!-- <template if:true={showApproveRejectColumn}> -->
+        <th>Approve/Reject</th>
+        <!-- </template> -->
+        <th>Name</th>
+        <!-- <th style="width:30%;">
+            <div class="slds-truncate" title="Name">Names</div>
+        </th> -->
+        <th>Record Status</th>
+        <th>Approval Effective Date</th>
+        <th>Field Name</th>
+        <th style="width:30%;">
+            <div class="slds-truncate" title="Old Value">Old Value</div>
+        </th>
+        <th style="width:30%;">
+            <div class="slds-truncate" title="New Value">New Value</div>
+        </th>
+
+    </tr>
+    <template for:each={data} for:item="row">
+                        <!-- <tr key={row.recordLink} > -->
+                            <td key={row.recordLink} rowspan={row.rowSpan}>
+                                <lightning-input type="checkbox" data-id="checkbox" name={row.recordStatus} value={row.Id} onchange={handleChange}></lightning-input>
+                            </td>
+                            <!-- <template if:true={showApproveRejectColumn}> -->
+                            <td  key={row.recordLink} rowspan={row.rowSpan} class="column-action-button">
+                                <lightning-button variant="Brand" 
+                                    name={row.Id}
+                                    label="Approve" 
+                                    title="Approve" 
+                                    disabled={row.isApproveOrRejectBtnDisabled}
+                                    onclick={handleApproveClick}
+                                    class="slds-show slds-m-bottom_xxx-small slds-text-align_center"
+                                    
+                                ></lightning-button>
+                                <lightning-button variant="Destructive" 
+                                    name={row.Id}
+                                    label="Reject" 
+                                    title="Reject" 
+                                    disabled={row.isApproveOrRejectBtnDisabled} 
+                                    class="slds-show slds-text-align_center"
+                                    onclick={handleRejectClick}
+                                ></lightning-button>
+                            </td>
+                        <!-- </template> -->
+    <td key={row.recordLink} rowspan={row.rowSpan} style="text-align:center">
+        <span><a href={row.recordLink} target="_blank" title={row.name}>{row.name}</a></span>
+    </td>
+    <td key={row.recordLink} rowspan={row.rowSpan} style="text-align:center">
+        <span>{row.recordStatus}</span>
+    </td>
+    <td key={row.recordLink} rowspan={row.rowSpan} style="text-align:center">
+        <span>{row.approvalEffectiveDate}</span>
+    </td>
+    <template for:each={row.approvalRecordWrapper} for:item="field">
+                                <tr key={field.fieldName}>
+                                    <td >{field.fieldName}</td>
+                                    <td >{field.oldvalue}</td>     
+                                    <td >{field.newvalue}</td>  
+                                </tr>
+                            </template>
+
+    <!-- </tr> -->
+    </template>
+</table>
+</div>
+<div class="slds-align_absolute-center" if:false={isViewAllClicked}>
+    <lightning-button variant="base" label="View All" title="View All" onclick={handleViewAllClick} class="slds-m-left_x-small">
+    </lightning-button>
+</div>
+</template>
+
+<c-dcmgt_modal data-id="submitForApproval" onclosedialog={handleModalCancel}>
+    <div slot="header">{modalTitle}</div>
+    <div class="slds-form-element">
+        <lightning-input data-id="comment" type="textarea" label="Comments" required></lightning-input>
+        <div if:true={hideEffectiveDateOnReject}>
+            <br><br><label>Approval Effective Date </label>
+            <input data-id="effectiveDate" type="date" min={todaydate} format="MM-DD-YYYY" value={todaydate} required></input>
+        </div>
+    </div>
+    <div slot="footer">
+        <lightning-button data-id="Cancel" label="Cancel" onclick={handleModalCancel}></lightning-button>
+        <lightning-button data-id="Submit" label={modalsubmitLabel} variant="brand" class="slds-p-left_small" onclick={handleModalSubmit}></lightning-button>
+    </div>
+</c-dcmgt_modal>
+</lightning-card>
+</template>

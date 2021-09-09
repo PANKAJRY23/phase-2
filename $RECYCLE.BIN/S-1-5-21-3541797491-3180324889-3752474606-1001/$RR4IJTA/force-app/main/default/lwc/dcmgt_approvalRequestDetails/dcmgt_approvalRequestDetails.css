@@ -1,0 +1,42 @@
+/* table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+tr {
+    width: 100%;
+} */
+
+
+.table-orange{
+    color:#fff;
+    background-color:#e06000;
+  }
+  .table-orange:hover{
+    color:#000;
+    background-color:#e06000;
+  }
+  .myTable table>thead .slds-cell-fixed.slds-has-button-menu, .myTable table>thead .slds-cell-fixed.slds-has-button-menu:hover{
+    background: rgb(215, 217, 250);
+  }
+
+  /* ApprovalRequestDetails.css
+.textCSS {
+    color: red;
+}
+
+.slds-card__header {
+    color: green;
+    font-weight: bold;
+}
+
+.slds-th__action {
+    color: blue;
+    justify-content: center !important;
+}
+
+.buttonCSS {
+    background: black;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+} */

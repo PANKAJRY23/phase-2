@@ -1,0 +1,85 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..."
+            variant="brand"
+            size="large">
+        </lightning-spinner>
+    </template>
+    <lightning-accordion class="example-accordion"
+        allow-multiple-sections-open
+        onsectiontoggle={handleToggleSection}
+        active-section-name={activeSections}>
+        
+        <lightning-accordion-section name="Your Publications" label="Your Publications" 
+            onclick={sectionClickHandler}>
+
+            <template if:true={approvalPublicationRequest}>
+                <div style="max-height: 300px;overflow: auto;">
+                    <lightning-datatable  key-field="Id"
+                        columns={columns}
+                        data={approvalPublicationRequest}
+                        class="approvedPubRequests"
+                        onrowaction={handleRowAction}>
+                    </lightning-datatable>
+                </div>
+                <lightning-input-rich-text 
+                    value={notifiactionMessage}
+                    onchange={notifiactionMessageChangeHandler}
+                    class="slds-m-top_small" >
+                </lightning-input-rich-text>
+                <div class="slds-clearfix">
+                    <lightning-button variant="brand" 
+                        label="Notify Subscribers" 
+                        title="Notify Subscribers" 
+                        onclick={notifySubscribersClick} 
+                        class="slds-m-top_small slds-m-left_x-small slds-float_right">
+                    </lightning-button>
+                </div>
+            </template>
+            <template if:false={approvalPublicationRequest}>
+                <div>
+                    <span>No Approval Requests</span>
+                </div>
+            </template>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="Pending Requests" label="Pending Requests"
+            onclick={sectionClickHandler}>
+
+            <template if:true={pendingPublicationRequest}>
+                <div style="max-height: 300px;overflow: auto;">
+                    <lightning-datatable style="max-height: 300px;overflow: auto;"  key-field="Id"
+                        columns={columns}
+                        data={pendingPublicationRequest}
+                        onrowaction={handleRowAction}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>
+            </template>
+            <template if:false={pendingPublicationRequest}>
+                <div>
+                    <span>No Pending Requests</span>
+                </div>
+            </template>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="Existing Data Contracts" label="Existing Data Contracts"
+            onclick={sectionClickHandler}>
+
+            <template if:true={dataContracts}>
+                <div style="max-height: 300px;overflow: auto;">
+                    <lightning-datatable key-field="Id"
+                        columns={dataContractColumns}
+                        data={dataContracts}
+                        onrowaction={handleDataContractRowAction}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>
+            </template>
+            <template if:false={dataContracts}>
+                <div>
+                    <span>No Data Contracts exist in the System</span>
+                </div>
+            </template>
+        </lightning-accordion-section>  
+    </lightning-accordion>
+</template>

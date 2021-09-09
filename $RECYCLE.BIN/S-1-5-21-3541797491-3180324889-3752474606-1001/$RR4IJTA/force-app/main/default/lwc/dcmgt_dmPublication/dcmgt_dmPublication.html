@@ -1,0 +1,69 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..."
+            variant="brand"
+            size="large">
+        </lightning-spinner>
+    </template>
+    <lightning-layout>
+        <lightning-layout-item size="8" >
+            <div class="slds-box slds-box_small">
+                <template if:true={dataPubliactionId}>
+                    <lightning-accordion class="example-accordion"
+                        allow-multiple-sections-open
+                        onsectiontoggle={handleToggleSection}
+                        active-section-name={activeSections}>
+                        <lightning-accordion-section name="Tenant Details" label="Tenant Details">
+                            <c-dcmgt_tenant-details-comp 
+                                pub-tenant-id={tenantId}
+                                publiaction-id={dataPubliactionId}></c-dcmgt_tenant-details-comp>
+                        </lightning-accordion-section>
+
+                        <lightning-accordion-section name="Service Registry" label="Service Registry">
+                            <c-dcmgt_service-registry-comp pub-service-id={serviceId}
+                            publiaction-id={dataPubliactionId}></c-dcmgt_service-registry-comp>
+                        </lightning-accordion-section>
+
+                        <lightning-accordion-section name="Data Source Details" label="Data Source Details">
+                            <c-dcmgt_data-source-details-comp pub-data-dictionary-id={dataDictionaryId}
+                            publiaction-id={dataPubliactionId}></c-dcmgt_data-source-details-comp>
+                        </lightning-accordion-section>
+                        <lightning-accordion-section name="Data Asset Details" label="Data Asset Details">
+                            <div>
+                                <template if:true={tableData}>
+                                    <lightning-datatable key-field="Id"
+                                        columns={columns}
+                                        data={tableData}
+                                        selected-rows={selectedRow}
+                                        class="dataAssetTable">
+                                    </lightning-datatable>
+                                </template>
+                                <template if:false={tableData}>
+                                    <div>
+                                        <span>No Data Assets available for the Data Source</span>
+                                    </div>
+                                </template>
+                            </div>
+                            <!-- <c-dcmgt_data-asset-details-comp></c-dcmgt_data-asset-details-comp> -->
+                        </lightning-accordion-section>
+                        <lightning-accordion-section name="Production Support" label="Production Support">
+                            Production Support
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+                </template>
+                
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="4" >
+            <div class="slds-box slds-box_small">
+                <c-dcmgt_publication-details-comp></c-dcmgt_publication-details-comp>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <div slot="footer" class="slds-clearfix slds-m-top_small">
+        <lightning-button variant="brand" label="Publish" title="Publish" onclick={publishHandler} class="slds-m-left_x-small slds-float_right"></lightning-button>
+    </div>
+    
+</template>
